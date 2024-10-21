@@ -1,21 +1,21 @@
 ﻿namespace Eventfy.Models
 {
-    public class Event
+    public class Participant
     {
+     
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
-        public DateTime DateEvent { get; set; }
+        public string Email { get; set; }
         public List<EventParticipant>? EventsParticipant { get; set; } = new List<EventParticipant>();
-        public Event(int id, string name, string description, DateTime dateEvent)
+
+        public Participant(int id, string name, string email)
         {
             Id = id;
             Name = name;
-            Description = description;
-            DateEvent = dateEvent;
-
-
-
+            Email = email;
+            
+            
         }
+
     }
 }
