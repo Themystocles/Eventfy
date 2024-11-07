@@ -9,6 +9,8 @@
         public int IdEvent { get; set; }
         public Event Event { get; set; }
 
+        public Local() { }
+
         public Local(int id, string endereco, int capacidade, Event @event, int idEvent)
         {
             Id = id;
