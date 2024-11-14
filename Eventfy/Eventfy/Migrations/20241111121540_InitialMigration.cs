@@ -5,23 +5,22 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Eventfy.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Events",
+                name: "Locals",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateEvent = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Endereco = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Capacidade = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Events", x => x.Id);
+                    table.PrimaryKey("PK_Locals", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -39,23 +38,23 @@ namespace Eventfy.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Locals",
+                name: "Events",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Endereco = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Capacidade = table.Column<int>(type: "int", nullable: false),
-                    IdEvent = table.Column<int>(type: "int", nullable: false),
-                    EventId = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateEvent = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LocalId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Locals", x => x.Id);
+                    table.PrimaryKey("PK_Events", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Locals_Events_EventId",
-                        column: x => x.EventId,
-                        principalTable: "Events",
+                        name: "FK_Events_Locals_LocalId",
+                        column: x => x.LocalId,
+                        principalTable: "Locals",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -99,9 +98,9 @@ namespace Eventfy.Migrations
                 column: "ParticipantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Locals_EventId",
-                table: "Locals",
-                column: "EventId");
+                name: "IX_Events_LocalId",
+                table: "Events",
+                column: "LocalId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -110,13 +109,13 @@ namespace Eventfy.Migrations
                 name: "EventParticipants");
 
             migrationBuilder.DropTable(
-                name: "Locals");
+                name: "Events");
 
             migrationBuilder.DropTable(
                 name: "Participants");
 
             migrationBuilder.DropTable(
-                name: "Events");
+                name: "Locals");
         }
     }
 }

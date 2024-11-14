@@ -11,8 +11,9 @@ namespace Eventfy.Tests.Models
         public void CreateEventParticipant_Success()
         {
             // Arrange
-            var event1 = new Event(1, "Palestra Pablo Marçal", "uma descrição", DateTime.Now);
-            var event2 = new Event(2, "Guanabara MySql", "Outra Descrição", DateTime.Now.AddDays(1));
+            var local = new Local { Id = 1, Capacidade = 300, Endereco = "Av Expedicionarios 1212", };
+            var event1 = new Event(1, "Palestra Pablo Marçal", "uma descrição", DateTime.Now, 0, local);
+            var event2 = new Event(2, "Guanabara MySql", "Outra Descrição", DateTime.Now.AddDays(1), 0, local);
 
             var participant1 = new Participant(1, "John Doe", "john@example.com");
             var participant2 = new Participant(2, "Jane Doe", "jane@example.com");

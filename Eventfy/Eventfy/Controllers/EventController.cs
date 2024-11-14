@@ -1,4 +1,5 @@
 ﻿using Eventfy.Models;
+using Eventfy.Models.DTOs;
 using Eventfy.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +9,7 @@ namespace Eventfy.Controllers
     [Route("api/[controller]")]
     public class EventController : ControllerBase
     {
-      private readonly EventService _eventService;
+        private readonly EventService _eventService;
         public EventController(EventService eventService)
         {
             _eventService = eventService;
@@ -16,9 +17,52 @@ namespace Eventfy.Controllers
         [HttpGet("Event")]
         public async Task<ActionResult<IEnumerable<Event>>> GetAllEventsAssync()
         {
-            var @event = await  _eventService.GetEvents();
+            var @event = await _eventService.GetEvents();
 
-            return  @event.ToList();   
+            return @event.ToList();
         }
+        [HttpGet("Event/{Id}")]
+        public async Task<ActionResult<Event>> GetEventById(int Id)
+        {
+            var @event = await _eventService.GetEventById(Id);
+
+            return Ok(@event);
+        }
+        [HttpPost("CreateEvent")]
+        public async Task<ActionResult<Event>> PostEvent([FromBody] EventDto eventDto)
+        {
+            await _eventService.CreateEvent(eventDto);
+
+            return Ok(eventDto);
+        }
+        [HttpPut("EditEvent/{id}")]
+        public async Task<ActionResult<Event>> PutEvent(int id, [FromBody] EventDto @event)
+        {
+            try
+            {
+                await _eventService.UpdateEvent(@event);
+                return Ok(@event);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erro Interno: {ex.Message}");
+            }
+            
+        }
+        [HttpDelete("Delete/{id}")]
+        public async Task<ActionResult<Event>> DeleteEvent(int id)
+        {
+            try
+            {
+                await _eventService.DeleteEvent(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erro interno: {ex.Message}"); 
+            }
+           
+        }
+            
     }
 }

@@ -16,19 +16,17 @@ namespace Eventfy.Tests.Models
             var endereco = "Rua Natal 333";
             var capacidade = 40;
             var IdEvent = 1;
-            var eventMock = new Event(1, "Palestra Pablo Marçal", "Palestra Pablo Marçal", DateTime.Now);
-
-      
+   
             //Act
 
-            var local = new Local(1, endereco, capacidade, eventMock, IdEvent);
+            var local = new Local(1, endereco, capacidade);
 
             //Assert
             Assert.NotNull(local); 
             Assert.Equal(endereco, local.Endereco); 
             Assert.Equal(capacidade, local.Capacidade);
-            Assert.Equal(IdEvent, local.IdEvent); 
-            Assert.Equal(eventMock, local.Event); 
+             
+            
 
         }
     }

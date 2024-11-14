@@ -18,6 +18,8 @@ namespace Eventfy.Tests.Models
             var name = "name";
             var description = "description";
             var dateEvent = DateTime.Now;
+            ;
+            var local = new Local { Id = 1, Capacidade = 300, Endereco = "Av Expedicionarios 1212", };
             var participants = new List<EventParticipant>
             {
                 new EventParticipant { IdEvent = 1, IdParticipant = 1, Participant = new Participant(1, "John Doe", "john@example.com") },
@@ -25,7 +27,7 @@ namespace Eventfy.Tests.Models
             };
 
             //Act
-            var evento = new Event(0, name, description, dateEvent);
+            var evento = new Event(0, name, description, dateEvent, 0, local);
             evento.EventsParticipant = participants;
 
             //Assert

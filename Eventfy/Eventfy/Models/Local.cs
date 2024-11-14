@@ -6,18 +6,15 @@
         public int Id { get; set; }
         public string Endereco { get; set; }
         public int Capacidade { get; set; }
-        public int IdEvent { get; set; }
-        public Event Event { get; set; }
-
+        public List<Event> Events { get; set; }
         public Local() { }
 
-        public Local(int id, string endereco, int capacidade, Event @event, int idEvent)
+        public Local(int id, string endereco, int capacidade)
         {
             Id = id;
             Endereco = endereco;
             Capacidade = capacidade;
-            Event = @event;
-            IdEvent = idEvent;
+           
         }
     }
 }

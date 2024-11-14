@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Eventfy.Migrations
 {
     [DbContext(typeof(ConnectionContext))]
-    [Migration("20241105125519_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241113154313_eventmigrationsnotrequired")]
+    partial class eventmigrationsnotrequired
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,13 +39,18 @@ namespace Eventfy.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("LocalId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Events", (string)null);
+                    b.HasIndex("LocalId");
+
+                    b.ToTable("Events");
                 });
 
             modelBuilder.Entity("Eventfy.Models.EventParticipant", b =>
@@ -74,7 +79,7 @@ namespace Eventfy.Migrations
 
                     b.HasIndex("ParticipantId");
 
-                    b.ToTable("EventParticipants", (string)null);
+                    b.ToTable("EventParticipants");
                 });
 
             modelBuilder.Entity("Eventfy.Models.Local", b =>
@@ -92,17 +97,9 @@ namespace Eventfy.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdEvent")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("EventId");
-
-                    b.ToTable("Locals", (string)null);
+                    b.ToTable("Locals");
                 });
 
             modelBuilder.Entity("Eventfy.Models.Participant", b =>
@@ -123,7 +120,16 @@ namespace Eventfy.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Participants", (string)null);
+                    b.ToTable("Participants");
+                });
+
+            modelBuilder.Entity("Eventfy.Models.Event", b =>
+                {
+                    b.HasOne("Eventfy.Models.Local", "Local")
+                        .WithMany("Events")
+                        .HasForeignKey("LocalId");
+
+                    b.Navigation("Local");
                 });
 
             modelBuilder.Entity("Eventfy.Models.EventParticipant", b =>
@@ -145,20 +151,14 @@ namespace Eventfy.Migrations
                     b.Navigation("Participant");
                 });
 
-            modelBuilder.Entity("Eventfy.Models.Local", b =>
-                {
-                    b.HasOne("Eventfy.Models.Event", "Event")
-                        .WithMany()
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Event");
-                });
-
             modelBuilder.Entity("Eventfy.Models.Event", b =>
                 {
                     b.Navigation("EventsParticipant");
+                });
+
+            modelBuilder.Entity("Eventfy.Models.Local", b =>
+                {
+                    b.Navigation("Events");
                 });
 
             modelBuilder.Entity("Eventfy.Models.Participant", b =>

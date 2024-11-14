@@ -12,12 +12,13 @@ using Eventfy.Persistence;
 using Eventfy.Interface;
 using Eventfy.Service;
 using Microsoft.Extensions.Logging;
+using Eventfy.Models.DTOs;
 
-namespace Eventfy.Tests.Persistence
+namespace Eventfy.Tests.Services.EventsServicesTest.GetEventTest
 {
     public class EventServiceTest
     {
-   
+
         [Fact]
         public async Task GetAllEventAsync_ShouldReturnAllEvents()
         {
@@ -55,7 +56,7 @@ namespace Eventfy.Tests.Persistence
             var Name = "Fabio";
             var Description = "Uma breve descrição";
             var @eventFake = new Event { Id = id, Name = Name, Description = Description };
-       
+
 
             mockEventPersist
            .Setup(repo => repo.GetEventByIdAsync(id))
@@ -78,14 +79,14 @@ namespace Eventfy.Tests.Persistence
             var mockEventPersist = new Mock<IEventPersist>();
 
             // Mock Data
-            var idExistente = 1;  
-            var idInexistente = 2; 
+            var idExistente = 1;
+            var idInexistente = 2;
             var @eventFake = new Event { Id = idExistente, Name = "Fabio", Description = "Uma breve descrição" };
 
 
             mockEventPersist
                 .Setup(repo => repo.GetEventByIdAsync(idExistente))
-                .ReturnsAsync(@eventFake); 
+                .ReturnsAsync(@eventFake);
 
             var eventService = new EventService(mockEventPersist.Object);
 
@@ -93,7 +94,8 @@ namespace Eventfy.Tests.Persistence
             var @event = await eventService.GetEventById(idInexistente);
 
             // Assert
-            Assert.Null(@event); 
+            Assert.Null(@event);
         }
+        
     }
 }

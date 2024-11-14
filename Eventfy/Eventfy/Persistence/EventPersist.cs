@@ -1,6 +1,7 @@
 ﻿using Eventfy.Data;
 using Eventfy.Interface;
 using Eventfy.Models;
+using Eventfy.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,9 +17,22 @@ namespace Eventfy.Persistence
             _context = context;
             
         }
-        public Task<Event> DeleteEventAsync(int id)
+
+        public async Task<Event> CreateEvent(Event newEvent)
         {
-            throw new NotImplementedException();
+            await _context.Events.AddAsync(newEvent);
+            await _context.SaveChangesAsync();
+            return newEvent;
+        }
+
+        public async Task<Event> DeleteEventAsync(int id)
+        {
+           var @event =  await _context.Events.FindAsync(id);
+            _context.Events.Remove(@event);
+            await _context.SaveChangesAsync();
+            return @event;
+
+            
         }
 
         public async Task<IEnumerable<Event>> GetAllEventAsync()
@@ -34,9 +48,12 @@ namespace Eventfy.Persistence
             return @event;
         }
 
-        public Task<Event> UpdateEventAsync(Event updateEvent)
+        public async Task<Event> UpdateEventAsync(Event updateEvent)
         {
-            throw new NotImplementedException();
+
+             _context.Update(updateEvent);
+            await _context.SaveChangesAsync();
+            return updateEvent;
         }
     }
 }
