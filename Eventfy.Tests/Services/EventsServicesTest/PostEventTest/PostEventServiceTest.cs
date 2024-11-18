@@ -13,10 +13,18 @@ namespace Eventfy.Tests.Services.EventsServicesTest.PostEventTest
 {
     public class PostEventServiceTest
     {
+        
+
+        private readonly Mock<IEventPersist> _mockEventPersist;
+        public PostEventServiceTest()
+        {
+              _mockEventPersist = new Mock<IEventPersist>();
+        }
+
         [Fact]
         public async Task CreateEvent_ShouldReturn_EventDTOCreate()
         {
-            var mockEventPersist = new Mock<IEventPersist>();
+          
             // Arrange
             var eventDto = new EventDto
             {
@@ -33,10 +41,10 @@ namespace Eventfy.Tests.Services.EventsServicesTest.PostEventTest
                 DateEvent = eventDto.DateEvent,
 
             };
-            mockEventPersist.Setup(repo => repo.CreateEvent(It.IsAny<Event>()))
+            _mockEventPersist.Setup(repo => repo.CreateEvent(It.IsAny<Event>()))
                           .ReturnsAsync(createdEvent);
 
-            var service = new EventService(mockEventPersist.Object);
+            var service = new EventService(_mockEventPersist.Object);
 
             //act
             var result = await service.CreateEvent(eventDto);
@@ -48,11 +56,24 @@ namespace Eventfy.Tests.Services.EventsServicesTest.PostEventTest
             Assert.Equal(createdEvent.DateEvent, result.DateEvent);
 
             // Verifica se o método CreateEvent foi chamado com os parâmetros corretos
-            mockEventPersist.Verify(repo => repo.CreateEvent(It.Is<Event>(e =>
+            _mockEventPersist.Verify(repo => repo.CreateEvent(It.Is<Event>(e =>
                 e.Name == eventDto.Name &&
                 e.Description == eventDto.Description &&
                 e.DateEvent == eventDto.DateEvent
             )), Times.Once);
+        }
+        [Fact]
+        public async Task EventShouldreturn_ArgumentNullException()
+        {
+            //Arrange
+              var service = new EventService( _mockEventPersist.Object );
+
+            //act
+            var exception = await Assert.ThrowsAsync<ArgumentNullException>(() =>
+            service.CreateEvent(null));
+
+            Assert.Equal("O evento não pode ser nulo. (Parameter 'eventDto')", exception.Message); // Confirma a mensagem da exceção
+            _mockEventPersist.Verify(repo => repo.CreateEvent(It.IsAny<Event>()), Times.Never); // Garante que o repositório não foi chamado
         }
     }
 }

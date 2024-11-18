@@ -23,6 +23,8 @@ namespace Eventfy
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<IEventPersist, EventPersist>();
             builder.Services.AddScoped<EventService>();
+            builder.Services.AddScoped<ILocalPersist, LocalPersist>();
+            builder.Services.AddScoped<LocalService>();
 
             var app = builder.Build();
 

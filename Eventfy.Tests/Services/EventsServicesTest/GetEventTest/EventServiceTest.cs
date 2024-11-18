@@ -18,24 +18,28 @@ namespace Eventfy.Tests.Services.EventsServicesTest.GetEventTest
 {
     public class EventServiceTest
     {
+        private readonly Mock<IEventPersist> _mockEventPersist;
+        public EventServiceTest()
+        {
+            _mockEventPersist = new Mock<IEventPersist>();
+        }   
 
         [Fact]
         public async Task GetAllEventAsync_ShouldReturnAllEvents()
         {
             //Arrange
-            var mockEventPersist = new Mock<IEventPersist>();
-
+           
             // Mock Data
             var eventFake = new List<Event>
         {
             new Event { Id = 1, Name = "Evento 1", Description = "Description 1"},
             new Event { Id = 2, Name = "Evento 2", Description = "Description 2"}
         };
-            mockEventPersist
+            _mockEventPersist
            .Setup(repo => repo.GetAllEventAsync())
            .ReturnsAsync(eventFake);
 
-            var eventService = new EventService(mockEventPersist.Object);
+            var eventService = new EventService(_mockEventPersist.Object);
 
             // Act
             var events = await eventService.GetEvents();
@@ -49,7 +53,7 @@ namespace Eventfy.Tests.Services.EventsServicesTest.GetEventTest
         public async Task GetEventById_ShouldReturnAEvent()
         {
             //Arrange
-            var mockEventPersist = new Mock<IEventPersist>();
+      
 
             // Mock Data
             var id = 1;
@@ -58,11 +62,11 @@ namespace Eventfy.Tests.Services.EventsServicesTest.GetEventTest
             var @eventFake = new Event { Id = id, Name = Name, Description = Description };
 
 
-            mockEventPersist
+            _mockEventPersist
            .Setup(repo => repo.GetEventByIdAsync(id))
            .ReturnsAsync(@eventFake);
 
-            var eventService = new EventService(mockEventPersist.Object);
+            var eventService = new EventService(_mockEventPersist.Object);
 
             // Act
             var @event = await eventService.GetEventById(id);
@@ -76,7 +80,6 @@ namespace Eventfy.Tests.Services.EventsServicesTest.GetEventTest
         public async Task GetEventById_ShouldReturnNull_WhenEventDoesNotExist()
         {
             // Arrange
-            var mockEventPersist = new Mock<IEventPersist>();
 
             // Mock Data
             var idExistente = 1;
@@ -84,11 +87,11 @@ namespace Eventfy.Tests.Services.EventsServicesTest.GetEventTest
             var @eventFake = new Event { Id = idExistente, Name = "Fabio", Description = "Uma breve descrição" };
 
 
-            mockEventPersist
+            _mockEventPersist
                 .Setup(repo => repo.GetEventByIdAsync(idExistente))
                 .ReturnsAsync(@eventFake);
 
-            var eventService = new EventService(mockEventPersist.Object);
+            var eventService = new EventService(_mockEventPersist.Object);
 
             // Act
             var @event = await eventService.GetEventById(idInexistente);
