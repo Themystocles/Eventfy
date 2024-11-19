@@ -1,5 +1,6 @@
 ﻿using Eventfy.Interface;
 using Eventfy.Models;
+using Eventfy.Models.DTOs;
 
 namespace Eventfy.Service
 {
@@ -21,5 +22,34 @@ namespace Eventfy.Service
             }
             return locals;
         }
+        public async Task <Local> GetLocalByIdAsync(int id)
+        {
+            var local = await _localPersist.GetLocalByIdAsync(id);
+            if (local == null) 
+            { 
+                throw new ArgumentNullException(nameof(local), "O id passado não existe"); 
+            }
+            return local;
+
+        }
+        public async Task <Local> CreateLocalAsync(LocalDto localDto)
+        {
+            if (localDto == null)
+            {
+                throw new ArgumentNullException(nameof(localDto), "Local não pode ser nulo");
+            }
+            var local = new Local()
+            { 
+                Id = localDto.Id,
+                Capacidade = localDto.Capacidade,
+                Endereco = localDto.Endereco,
+            };
+             await _localPersist.CreateLocalAsync(local);
+
+            return local;
+
+
+        }
+
     }
 }

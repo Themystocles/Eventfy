@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,7 +46,7 @@ namespace Eventfy.Tests.Services.LocalsServicesTest.GetLocalTest
             Assert.Equal("RJ", local.First().Endereco);
         }
         [Fact]
-        public async Task ShhouldReturn_ThrowArgumentNullException()
+        public async Task ShouldReturn_ThrowArgumentNullException()
         {
             //Arrange
             _MocklocalPersist.Setup(repo => repo.GetAllLocalAsync())
@@ -62,5 +63,52 @@ namespace Eventfy.Tests.Services.LocalsServicesTest.GetLocalTest
 
 
         }
+        [Fact]
+        public async Task ShouldReturnALocalById()
+        {
+            //Arrange
+           
+            var localFake = new Local 
+            { 
+              Id = 1,
+              Capacidade = 100000,
+              Endereco = "Arena Castelão",
+            };
+
+            _MocklocalPersist
+            .Setup(repo => repo.GetLocalByIdAsync(localFake.Id))
+            .ReturnsAsync(localFake);
+
+            var localService = new LocalService(_MocklocalPersist.Object);
+
+            //act and Acert
+            var result = await localService.GetLocalByIdAsync(localFake.Id);
+
+            Assert.NotNull(result);
+            Assert.Equal(localFake.Id, result.Id);
+            Assert.Equal(localFake.Capacidade, result.Capacidade);
+            Assert.Equal(localFake.Endereco, result.Endereco);
+
+
+        }
+        [Fact]
+        public async Task IfLocalisnull_ShouldreturnThrowArgumentNullException()
+        {
+            
+            _MocklocalPersist
+                .Setup(repo => repo.GetLocalByIdAsync(It.IsAny<int>()))
+                .ReturnsAsync((Local)null);
+
+            var localService = new LocalService (_MocklocalPersist.Object);
+
+            //Act & Assert
+            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            {
+                await localService.GetLocalByIdAsync(1);
+            });
+        }
+
+
+    
     }
 }
