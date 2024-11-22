@@ -8,7 +8,7 @@ namespace Eventfy.Interface
         Task<Local> GetLocalByIdAsync(int id);
         Task<Local> CreateLocalAsync(Local local);
         Task<Local> UpdateLocalAsync(Local local);
-        Task<Local> DeleteLocalAsync(int id);
+        Task<Local> DeleteLocalAsync(Local local);
 
     }
 }

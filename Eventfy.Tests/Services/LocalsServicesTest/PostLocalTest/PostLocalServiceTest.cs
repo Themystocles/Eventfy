@@ -6,6 +6,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -41,20 +42,37 @@ namespace Eventfy.Tests.Services.LocalsServicesTest.PostLocalTest
                 .Setup(repo => repo.CreateLocalAsync(CreatedlocalFake))
                 .ReturnsAsync(CreatedlocalFake);
 
-            
+
             var LocalService = new LocalService(_MocklocalPersist.Object);
 
             //act
-            var result =  await LocalService.CreateLocalAsync(LocalFakeDto);
+            var result = await LocalService.CreateLocalAsync(LocalFakeDto);
 
             //Assert
 
             Assert.NotNull(result);
             Assert.Equal(CreatedlocalFake.Endereco, result.Endereco);
             Assert.Equal(CreatedlocalFake.Capacidade, result.Capacidade);
-           
+
 
         }
 
+        [Fact]
+        public async Task shouldreturn_ArgumentNullException()
+        {
+            //Arrange
+            var service = new LocalService(_MocklocalPersist.Object);
+
+            //act Assert
+            var exception = await Assert.ThrowsAsync<ArgumentNullException>(() =>
+            service.CreateLocalAsync(null));
+            Assert.Equal("Local não pode ser nulo (Parameter 'localDto')", exception.Message);
+           
+            _MocklocalPersist.Verify(repo => repo.CreateLocalAsync(It.IsAny<Local>()), Times.Never); 
+
+        }
+
+
     }
+    
 }

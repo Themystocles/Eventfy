@@ -17,13 +17,17 @@ namespace Eventfy.Persistence
         public async Task<Local> CreateLocalAsync(Local local)
         {
           var newlocal = await _context.AddAsync(local);
-          _context.SaveChanges();
+          _context.SaveChangesAsync();
             return local;
         }
 
-        public Task<Local> DeleteLocalAsync(int id)
+        public async Task<Local> DeleteLocalAsync(Local local)
         {
-            throw new NotImplementedException();
+             _context.Locals.Remove(local);
+            await _context.SaveChangesAsync();
+            return local;
+
+
         }
 
         public async Task<IEnumerable<Local>> GetAllLocalAsync()
@@ -37,9 +41,11 @@ namespace Eventfy.Persistence
             return local;
         }
 
-        public Task<Local> UpdateLocalAsync(Local local)
+        public async Task<Local> UpdateLocalAsync(Local local)
         {
-            throw new NotImplementedException();
+             _context.Update(local);
+            await _context.SaveChangesAsync();
+            return local;
         }
     }
 }

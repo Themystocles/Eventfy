@@ -48,10 +48,49 @@ namespace Eventfy.Controllers
                 return StatusCode(500, $"Erro Interno: {ex.Message}");
             }
         }
+        [HttpPut("UpdateLocal/{id}")]
+        public async Task <ActionResult<Local>> UpdateLocalAsync(int id, [FromBody] LocalDto localDto)
+        {
+            if (id != localDto.Id)
+            {
+                return BadRequest("O ID da URL não corresponde ao ID do corpo da requisição.");
+
+            }
+            try
+            {
+                await _localService.UpdateLocalAsync(localDto);
+                return Ok(localDto);
+            }
+            catch (Exception ex)
+            {
+                
+                return StatusCode(500, $"Erro interno: {ex.Message}");
+            }
+
+          
+        }
+        [HttpDelete("DeleteLocal/{id}")]
+        public async Task <ActionResult<Local>> DeleteLocal(int id)
+        {
+            try
+            {
+                await _localService.DeleteLocal(id);
+                return Ok();
+
+
+            }
+            catch
+            {
+                return StatusCode(500, $"Erro interno");
+            }
 
 
 
-        
+        }
+
+
+
+
 
     }
 }

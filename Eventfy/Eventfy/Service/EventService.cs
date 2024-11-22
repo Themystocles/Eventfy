@@ -35,7 +35,9 @@ namespace Eventfy.Service
             {
                 Name = eventDto.Name,
                 Description = eventDto.Description,
-                DateEvent = eventDto.DateEvent
+                DateEvent = eventDto.DateEvent,
+                LocalId = eventDto.LocalId,
+                
             };
 
             await _eventPersist.CreateEvent(@event);
