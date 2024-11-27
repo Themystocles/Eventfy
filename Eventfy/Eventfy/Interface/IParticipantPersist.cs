@@ -8,6 +8,6 @@ namespace Eventfy.Interface
         Task<Participant> GetParticipantByIdAsync(int id);
         Task<Participant> CreateParticipantAsync(Participant participant);
         Task<Participant> UpdateParticipantAsync(Participant participant);
-        Task<Participant> DeleteParticipantAsync(int id);
+        Task<Participant> DeleteParticipantAsync(Participant participant);
     }
 }

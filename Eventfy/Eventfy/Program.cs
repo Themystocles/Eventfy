@@ -25,6 +25,8 @@ namespace Eventfy
             builder.Services.AddScoped<EventService>();
             builder.Services.AddScoped<ILocalPersist, LocalPersist>();
             builder.Services.AddScoped<LocalService>();
+            builder.Services.AddScoped<IParticipantPersist, ParticipantPersist>();
+            builder.Services.AddScoped<ParticipantService>();
 
             var app = builder.Build();
 
