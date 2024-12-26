@@ -22,8 +22,8 @@ namespace Eventfy.Tests.Models
             var local = new Local { Id = 1, Capacidade = 300, Endereco = "Av Expedicionarios 1212", };
             var participants = new List<EventParticipant>
             {
-                new EventParticipant { IdEvent = 1, IdParticipant = 1, Participant = new Participant(1, "John Doe", "john@example.com") },
-                new EventParticipant { IdEvent = 1, IdParticipant = 2, Participant = new Participant(2, "Jane Doe", "jane@example.com") }
+                new EventParticipant { EventId = 1, ParticipantId = 1, Participant = new Participant(1, "John Doe", "john@example.com") },
+                new EventParticipant { EventId = 1, ParticipantId = 2, Participant = new Participant(2, "Jane Doe", "jane@example.com") }
             };
 
             //Act

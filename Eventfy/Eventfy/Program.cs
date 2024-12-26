@@ -15,6 +15,16 @@ namespace Eventfy
             builder.Services.AddDbContext<ConnectionContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            // Configuração de CORS
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowLocalhost", policy =>
+                {
+                    policy.WithOrigins("http://localhost:3000") // Permite requisições de localhost:3000 (onde o React geralmente roda)
+                          .AllowAnyHeader()  // Permite qualquer cabeçalho
+                          .AllowAnyMethod(); // Permite qualquer método HTTP (GET, POST, etc)
+                });
+            });
             // Add services to the container.
 
             builder.Services.AddControllers();
@@ -27,8 +37,12 @@ namespace Eventfy
             builder.Services.AddScoped<LocalService>();
             builder.Services.AddScoped<IParticipantPersist, ParticipantPersist>();
             builder.Services.AddScoped<ParticipantService>();
+            builder.Services.AddScoped<IEventParticipantPersist, EventParticipantPersist>();
+            builder.Services.AddScoped<EventParticipantServices>();
 
             var app = builder.Build();
+            app.UseCors("AllowLocalhost");
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

@@ -62,12 +62,6 @@ namespace Eventfy.Migrations
                     b.Property<int>("EventId")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdEvent")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdParticipant")
-                        .HasColumnType("int");
-
                     b.Property<int>("ParticipantId")
                         .HasColumnType("int");
 

@@ -4,8 +4,8 @@ namespace Eventfy.Interface
 {
     public interface IEventParticipantPersist
     {
-        Task<IEnumerable<Event>> GetEventByParticipatAsync(int ParticipantId);
-        Task <IEnumerable<Participant>> GetParticipantByEventAsync(int EventId);
+        Task <IEnumerable<Participant>> GetParticipantsToEventAsync(int eventId);
+        Task <IEnumerable<Event>> GetEventToParticipantAsync(int participantId);
         Task AddParticipantToEventAsync(int eventId, int participantId);
         Task RemoveParticipantFromEventAsync(int eventId, int participantId); 
     }

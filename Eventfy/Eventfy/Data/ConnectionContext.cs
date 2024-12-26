@@ -13,7 +13,7 @@ namespace Eventfy.Data
         public ConnectionContext(DbContextOptions<ConnectionContext> options) : base(options){}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+          
         }
 
 

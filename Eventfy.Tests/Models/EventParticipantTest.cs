@@ -20,9 +20,9 @@ namespace Eventfy.Tests.Models
 
             var eventParticipants = new List<EventParticipant>
             {
-                new EventParticipant { IdEvent = 1, IdParticipant = 1, Event = event1, Participant = participant1 },
-                new EventParticipant { IdEvent = 2, IdParticipant = 1, Event = event2, Participant = participant1 },
-                new EventParticipant { IdEvent = 1, IdParticipant = 2, Event = event1, Participant = participant2 }
+                new EventParticipant { EventId = 1, ParticipantId = 1, Event = event1, Participant = participant1 },
+                new EventParticipant { EventId = 2, ParticipantId = 1, Event = event2, Participant = participant1 },
+                new EventParticipant { EventId = 1, ParticipantId = 2, Event = event1, Participant = participant2 }
             };
 
             // Act
@@ -31,18 +31,18 @@ namespace Eventfy.Tests.Models
             var eventParticipant3 = eventParticipants[2];
 
             // Assert:
-            Assert.Equal(1, eventParticipant1.IdEvent);
-            Assert.Equal(1, eventParticipant1.IdParticipant);
+            Assert.Equal(1, eventParticipant1.EventId);
+            Assert.Equal(1, eventParticipant1.ParticipantId);
             Assert.Equal("Palestra Pablo Marçal", eventParticipant1.Event.Name);
             Assert.Equal("John Doe", eventParticipant1.Participant.Name);
 
-            Assert.Equal(2, eventParticipant2.IdEvent);
-            Assert.Equal(1, eventParticipant2.IdParticipant);
+            Assert.Equal(2, eventParticipant2.EventId);
+            Assert.Equal(1, eventParticipant2.ParticipantId);
             Assert.Equal("Guanabara MySql", eventParticipant2.Event.Name);
             Assert.Equal("John Doe", eventParticipant2.Participant.Name);
 
-            Assert.Equal(1, eventParticipant3.IdEvent);
-            Assert.Equal(2, eventParticipant3.IdParticipant);
+            Assert.Equal(1, eventParticipant3.EventId);
+            Assert.Equal(2, eventParticipant3.ParticipantId);
             Assert.Equal("Palestra Pablo Marçal", eventParticipant3.Event.Name);
             Assert.Equal("Jane Doe", eventParticipant3.Participant.Name);
         }
