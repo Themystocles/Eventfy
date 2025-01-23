@@ -60,7 +60,7 @@ namespace Eventfy.Service
             existingEvent.DateEvent = Updatevent.DateEvent;
            
 
-            _eventPersist.UpdateEventAsync(existingEvent);
+             await _eventPersist.UpdateEventAsync(existingEvent);
             return existingEvent;
            
         }

@@ -28,6 +28,7 @@ namespace Eventfy
             // Add services to the container.
 
             builder.Services.AddControllers();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -39,6 +40,11 @@ namespace Eventfy
             builder.Services.AddScoped<ParticipantService>();
             builder.Services.AddScoped<IEventParticipantPersist, EventParticipantPersist>();
             builder.Services.AddScoped<EventParticipantServices>();
+            builder.Services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
+
 
             var app = builder.Build();
             app.UseCors("AllowLocalhost");

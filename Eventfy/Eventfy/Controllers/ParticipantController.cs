@@ -56,7 +56,8 @@ namespace Eventfy.Controllers
         {
             try
             {
-                await _participanteService.UpdateParticipantAsync(participantdto);
+                var participantDto = new ParticipantDto() { Id = Id, Name = participantdto.Name, Email = participantdto.Email };  
+                await _participanteService.UpdateParticipantAsync(participantDto);
                 return Ok(participantdto);
             }
             catch (ArgumentNullException ex) 

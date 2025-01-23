@@ -26,6 +26,18 @@ namespace Eventfy.Persistence
             
         }
 
+        public async Task<EventParticipant> GetEventparticipantByIdAsync(int idEventParticipant)
+        {
+            var eventsparticipantExist = await _connectionContext.EventParticipants.FindAsync(idEventParticipant);
+            if (eventsparticipantExist == null)
+            {
+               
+                return null;
+                
+            }
+            return eventsparticipantExist;
+        }
+
         public async Task<IEnumerable<Event>> GetEventToParticipantAsync(int participantId)
         {
             var events = await _connectionContext.EventParticipants
@@ -46,9 +58,18 @@ namespace Eventfy.Persistence
 
         }
 
+        public async Task UpdateParticipantToEventAsync(EventParticipant eventParticipant)
+        {
+          
+             _connectionContext.EventParticipants.Update(eventParticipant);
+             await _connectionContext.SaveChangesAsync();
+        }
+
         public Task RemoveParticipantFromEventAsync(int eventId, int participantId)
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }

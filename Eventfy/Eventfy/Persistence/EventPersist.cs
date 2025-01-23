@@ -4,6 +4,7 @@ using Eventfy.Models;
 using Eventfy.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Eventfy.Persistence
 
@@ -37,7 +38,12 @@ namespace Eventfy.Persistence
 
         public async Task<IEnumerable<Event>> GetAllEventAsync()
         {
-            return await _context.Events.ToListAsync();
+
+           return  await _context.Events
+                .Include(e => e.Local)
+                .ToListAsync();
+
+            
         }
 
         public async Task<Event?> GetEventByIdAsync(int Id)
@@ -50,8 +56,7 @@ namespace Eventfy.Persistence
 
         public async Task<Event> UpdateEventAsync(Event updateEvent)
         {
-
-             _context.Update(updateEvent);
+            _context.Events.Update(updateEvent);
             await _context.SaveChangesAsync();
             return updateEvent;
         }

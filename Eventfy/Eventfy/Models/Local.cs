@@ -1,4 +1,6 @@
-﻿namespace Eventfy.Models
+﻿using System.Text.Json.Serialization;
+
+namespace Eventfy.Models
 {
     public class Local
     {
@@ -6,6 +8,7 @@
         public int Id { get; set; }
         public string Endereco { get; set; }
         public int Capacidade { get; set; }
+        [JsonIgnore]
         public List<Event> Events { get; set; }
         public Local() { }
 

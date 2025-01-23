@@ -2,7 +2,8 @@
 {
     public class EventParticipantDto
     {
-        public int IdEvent { get; set; }
-        public int IdParticipant { get; set; }
+        public int Id { get; set; }
+        public int EventId { get; set; }
+        public int ParticipantId { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace Eventfy.Controllers
         {
             var @event = await _eventService.GetEvents();
 
-            return @event.ToList();
+            return Ok(@event);
         }
         [HttpGet("Event/{Id}")]
         public async Task<ActionResult<Event>> GetEventById(int Id)
@@ -40,7 +40,12 @@ namespace Eventfy.Controllers
         {
             try
             {
-                await _eventService.UpdateEvent(@event);
+                var eventDto = new EventDto() { Id = id,
+                    Name = @event.Name,
+                    Description = @event.Description,
+                    DateEvent = @event.DateEvent, 
+                    LocalId = @event.LocalId };
+                await _eventService.UpdateEvent(eventDto);
                 return Ok(@event);
             }
             catch (Exception ex)

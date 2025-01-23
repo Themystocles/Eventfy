@@ -51,14 +51,11 @@ namespace Eventfy.Controllers
         [HttpPut("UpdateLocal/{id}")]
         public async Task <ActionResult<Local>> UpdateLocalAsync(int id, [FromBody] LocalDto localDto)
         {
-            if (id != localDto.Id)
-            {
-                return BadRequest("O ID da URL não corresponde ao ID do corpo da requisição.");
-
-            }
+           
+            var localdto = new LocalDto { Id = id, Endereco = localDto.Endereco, Capacidade = localDto.Capacidade };
             try
             {
-                await _localService.UpdateLocalAsync(localDto);
+                await _localService.UpdateLocalAsync(localdto);
                 return Ok(localDto);
             }
             catch (Exception ex)

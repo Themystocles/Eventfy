@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Eventfy.Models
 {
@@ -19,9 +20,10 @@ namespace Eventfy.Models
 
         [ForeignKey("Local")] 
         public int? LocalId { get; set; }
+        
+        public Local? Local { get; set; }
 
-        public Local? Local { get; set; } 
-
+        
         public List<EventParticipant>? EventsParticipant { get; set; } = new List<EventParticipant>();
 
         // Construtor padrão

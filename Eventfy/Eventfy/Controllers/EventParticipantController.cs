@@ -21,6 +21,42 @@ namespace Eventfy.Controllers
             return Ok(eventParticipant);
 
         }
+        [HttpPut("UpdateEventParticipant/{EventParticipantId}")]
+        public async Task<ActionResult<EventParticipant>> UpdateEventParticipant(int EventParticipantId, [FromBody] EventParticipantDto eventParticipantDto)
+        {
+            if (eventParticipantDto == null)
+            {
+                return BadRequest("O participante do evento não pode ser nulo.");
+            }
+
+           
+            var eventParticipant = new EventParticipantDto()
+            {
+                
+                Id = EventParticipantId, 
+                EventId = eventParticipantDto.EventId,
+                ParticipantId = eventParticipantDto.ParticipantId,
+             
+            };
+            try
+            {
+                var updatedEventParticipant = await _eventParticipant.UpdateEventParticipantAsync(eventParticipant);
+                return Ok(updatedEventParticipant); // Retorna o participante atualizado
+            }
+            catch (ArgumentException ex)
+            {
+                
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                
+                return StatusCode(500, $"Erro interno: {ex.Message}");
+            }
+        }
+
+
+
         [HttpGet("Participants/{eventId}")]
         public async Task <ActionResult<IEnumerable<Participant>>> GetParticipantByEventId(int eventId)
         {

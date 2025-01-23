@@ -21,14 +21,14 @@ namespace Eventfy.Service
         }
         public async Task<EventParticipant> AddEventParticipant(EventParticipantDto eventParticipantDto)
         {
-            var eventExistent = await _eventPersist.GetEventByIdAsync(eventParticipantDto.IdEvent);
+            var eventExistent = await _eventPersist.GetEventByIdAsync(eventParticipantDto.EventId);
 
             if (eventExistent == null)
             {
                 throw new ArgumentNullException(nameof(eventParticipantDto), "Os dados não podem ser nulos");
                 
             }
-            var ParticipantExistent = await _participantPersist.GetParticipantByIdAsync(eventParticipantDto.IdParticipant);
+            var ParticipantExistent = await _participantPersist.GetParticipantByIdAsync(eventParticipantDto.ParticipantId);
             if (ParticipantExistent == null)
             {
                 throw new ArgumentNullException(nameof(eventParticipantDto), "Os dados não podem ser nulos");
@@ -36,15 +36,43 @@ namespace Eventfy.Service
 
             var eventParticipant = new EventParticipant
             {
-                EventId = eventParticipantDto.IdEvent,
-                ParticipantId = eventParticipantDto.IdParticipant,
+                EventId = eventParticipantDto.EventId,
+                ParticipantId = eventParticipantDto.ParticipantId,
             };
             await _eventParticipant.AddParticipantToEventAsync(eventParticipant.EventId, eventParticipant.ParticipantId);
 
             return eventParticipant;
-
             
         }
+        public async Task<EventParticipant> UpdateEventParticipantAsync(EventParticipantDto eventParticipant)
+        {
+            
+            if (eventParticipant == null)
+            {
+                throw new ArgumentNullException(nameof(eventParticipant), "O participante do evento não pode ser nulo.");
+            }
+            var existingEventParticipant = await _eventParticipant.GetEventparticipantByIdAsync(eventParticipant.Id);
+            if (existingEventParticipant == null)
+            {
+                throw new ArgumentException(nameof(existingEventParticipant.Id), "O Id do EventParticipant não foi encontrado.");
+            }
+
+            var eventExistent = await _eventPersist.GetEventByIdAsync(eventParticipant.EventId);
+            if (eventExistent == null)
+            {
+                throw new ArgumentException(nameof(eventParticipant.EventId), "O Id do Evento não foi encontrado.");
+            }
+            var participantExistent =  await _participantPersist.GetParticipantByIdAsync(eventParticipant.ParticipantId);
+            if (participantExistent == null)
+            {
+                throw new ArgumentException(nameof(eventParticipant.ParticipantId), "O Id do Participante não foi encontrado.");
+            }
+            existingEventParticipant.EventId = eventParticipant.EventId;
+            existingEventParticipant.ParticipantId = eventParticipant.ParticipantId;   
+            await _eventParticipant.UpdateParticipantToEventAsync(existingEventParticipant);
+            return existingEventParticipant;
+        }
+
         public async Task<IEnumerable<Participant>> GetListParticipantByEventId(int eventId)
         {
             var eventExist = await _eventPersist.GetEventByIdAsync(eventId);

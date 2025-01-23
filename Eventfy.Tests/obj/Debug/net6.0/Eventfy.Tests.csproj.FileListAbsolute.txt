@@ -143,3 +143,6 @@ C:\Users\themy\OneDrive\Documentos\Programação\Projetos\Eventfy.Tests\bin\Debu
 C:\Users\themy\OneDrive\Documentos\Programação\Projetos\Eventfy.Tests\bin\Debug\net6.0\Castle.Core.dll
 C:\Users\themy\OneDrive\Documentos\Programação\Projetos\Eventfy.Tests\bin\Debug\net6.0\Moq.dll
 C:\Users\themy\OneDrive\Documentos\Programação\Projetos\Eventfy.Tests\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.InMemory.dll
+C:\Users\themy\OneDrive\Documentos\Programação\Projetos\Eventfy.Tests\bin\Debug\net6.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\themy\OneDrive\Documentos\Programação\Projetos\Eventfy.Tests\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\themy\OneDrive\Documentos\Programação\Projetos\Eventfy.Tests\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
