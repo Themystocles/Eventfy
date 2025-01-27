@@ -58,6 +58,7 @@ namespace Eventfy.Service
             existingEvent.Name = Updatevent.Name;
             existingEvent.Description = Updatevent.Description;
             existingEvent.DateEvent = Updatevent.DateEvent;
+            existingEvent.LocalId = Updatevent.LocalId;
            
 
              await _eventPersist.UpdateEventAsync(existingEvent);

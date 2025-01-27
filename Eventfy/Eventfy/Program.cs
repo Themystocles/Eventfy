@@ -20,16 +20,16 @@ namespace Eventfy
             {
                 options.AddPolicy("AllowLocalhost", policy =>
                 {
-                    policy.WithOrigins("http://localhost:3000") // Permite requisições de localhost:3000 (onde o React geralmente roda)
-                          .AllowAnyHeader()  // Permite qualquer cabeçalho
-                          .AllowAnyMethod(); // Permite qualquer método HTTP (GET, POST, etc)
+                    policy.WithOrigins("http://localhost:3000") 
+                          .AllowAnyHeader()  
+                          .AllowAnyMethod(); 
                 });
             });
             // Add services to the container.
 
             builder.Services.AddControllers();
 
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+           
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<IEventPersist, EventPersist>();
