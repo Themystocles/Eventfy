@@ -13,10 +13,21 @@ namespace Eventfy.Controllers
         {
             _eventParticipant = eventParticipantServices;
         }
-        [HttpPost("CreateEventParticipant")]
-        public async Task <ActionResult<EventParticipant>> AddEventParticipant([FromBody] EventParticipantDto eventParticipant)
+        [HttpPost("CreateEventParticipant/{eventId}/{participantId}")]
+        public async Task <ActionResult<EventParticipant>> AddEventParticipant(int eventId, int participantId)
         {
-            await _eventParticipant.AddEventParticipant(eventParticipant);
+            var eventParticipant = new EventParticipantDto()
+            {
+                EventId = eventId,
+                ParticipantId = participantId
+            };
+            try
+            {
+                await _eventParticipant.AddEventParticipant(eventParticipant);
+            }catch (ArgumentNullException ex) {
+                return BadRequest(ex.Message);
+            }
+            
 
             return Ok(eventParticipant);
 

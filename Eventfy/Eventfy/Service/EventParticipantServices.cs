@@ -25,13 +25,13 @@ namespace Eventfy.Service
 
             if (eventExistent == null)
             {
-                throw new ArgumentNullException(nameof(eventParticipantDto), "Os dados não podem ser nulos");
+                throw new ArgumentNullException(nameof(eventParticipantDto), "O Evento não foi encontrado.");
 
             }
             var ParticipantExistent = await _participantPersist.GetParticipantByIdAsync(eventParticipantDto.ParticipantId);
             if (ParticipantExistent == null)
             {
-                throw new ArgumentNullException(nameof(eventParticipantDto), "Os dados não podem ser nulos");
+                throw new ArgumentNullException(nameof(eventParticipantDto), "O Participante não foi encontrado");
             }
 
             var eventParticipant = new EventParticipant
