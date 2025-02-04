@@ -98,6 +98,22 @@ namespace Eventfy.Service
             return @event;
         }
 
+        public async Task RemoveEventParticipant(int eventId, int participantId)
+        {
+          
+            var eventParticipant = await _eventParticipant.GetEventParticipantAsync(eventId, participantId);
+
+            if (eventParticipant == null)
+            {
+                throw new ArgumentNullException(nameof(eventId), "O participante não está cadastrado no evento.");
+            }
+
+            
+            await _eventParticipant.RemoveParticipantFromEventAsync(eventId, participantId);
+        }
+
+
     }
 }
+
 
