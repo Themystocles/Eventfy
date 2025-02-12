@@ -84,5 +84,15 @@ namespace Eventfy.Controllers
             return Ok(@event);
 
         }
+        [HttpDelete("Eventparticipant/{eventId}/{participantId}")]
+        public async Task<IActionResult> DeleteEventParticipant(int eventId, int participantId)
+        {
+             await _eventParticipant.RemoveEventParticipant(eventId, participantId);
+
+           
+
+            return NoContent();
+        }
+
     }
 }
