@@ -25,21 +25,18 @@ namespace Eventfy.Service
 
             if (eventExistent == null)
             {
-                throw new ArgumentNullException(nameof(eventParticipantDto), "O Evento não foi encontrado.");
+                throw new KeyNotFoundException("O Evento não foi encontrado.");
 
             }
             var ParticipantExistent = await _participantPersist.GetParticipantByIdAsync(eventParticipantDto.ParticipantId);
             if (ParticipantExistent == null)
             {
-                throw new ArgumentNullException(nameof(eventParticipantDto), "O Participante não foi encontrado");
+                throw new KeyNotFoundException("O Participante não foi encontrado.");
             }
 
-            var eventParticipant = new EventParticipant
-            {
-                EventId = eventParticipantDto.EventId,
-                ParticipantId = eventParticipantDto.ParticipantId,
-            };
-            await _eventParticipant.AddParticipantToEventAsync(eventParticipant.EventId, eventParticipant.ParticipantId);
+            var eventParticipant = await _eventParticipant.AddParticipantToEventAsync(
+            eventParticipantDto.EventId, eventParticipantDto.ParticipantId
+              ); 
 
             return eventParticipant;
 

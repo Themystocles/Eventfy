@@ -1,6 +1,7 @@
 ﻿using Eventfy.Data;
 using Eventfy.Interface;
 using Eventfy.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Eventfy.Persistence
@@ -13,7 +14,7 @@ namespace Eventfy.Persistence
         {   
             _connectionContext = connectionContext;
         }
-        public async Task AddParticipantToEventAsync(int eventId, int participantId)
+        public async Task<EventParticipant> AddParticipantToEventAsync(int eventId, int participantId)
         {
             var eventPartipant = new EventParticipant
             {
@@ -23,7 +24,10 @@ namespace Eventfy.Persistence
             _connectionContext.EventParticipants.Add(eventPartipant);
 
             await _connectionContext.SaveChangesAsync();
-            
+
+            return eventPartipant;
+
+
         }
 
         public async Task<EventParticipant> GetEventparticipantByIdAsync(int idEventParticipant)
@@ -72,9 +76,10 @@ namespace Eventfy.Persistence
 
         public async Task RemoveParticipantFromEventAsync(int eventId, int participantId)
         {
-            var eventparticipant = new EventParticipant { EventId = eventId, ParticipantId = participantId };
-            
-                 _connectionContext.EventParticipants.Remove(eventparticipant);
+            var eventParticipant = await _connectionContext.EventParticipants
+          .FirstOrDefaultAsync(ep => ep.EventId == eventId && ep.ParticipantId == participantId);
+
+            _connectionContext.EventParticipants.Remove(eventParticipant);
                 await _connectionContext.SaveChangesAsync();
             
             
