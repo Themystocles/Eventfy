@@ -19,9 +19,11 @@ namespace Eventfy.Tests.Services.EventsServicesTest.GetEventTest
     public class EventServiceTest
     {
         private readonly Mock<IEventPersist> _mockEventPersist;
+        private readonly EventService _eventService;
         public EventServiceTest()
         {
             _mockEventPersist = new Mock<IEventPersist>();
+            _eventService = new EventService(_mockEventPersist.Object);
         }   
 
         [Fact]
@@ -39,10 +41,9 @@ namespace Eventfy.Tests.Services.EventsServicesTest.GetEventTest
            .Setup(repo => repo.GetAllEventAsync())
            .ReturnsAsync(eventFake);
 
-            var eventService = new EventService(_mockEventPersist.Object);
 
             // Act
-            var events = await eventService.GetEvents();
+            var events = await _eventService.GetEvents();
 
             // Assert
             Assert.NotNull(events);
@@ -66,10 +67,8 @@ namespace Eventfy.Tests.Services.EventsServicesTest.GetEventTest
            .Setup(repo => repo.GetEventByIdAsync(id))
            .ReturnsAsync(@eventFake);
 
-            var eventService = new EventService(_mockEventPersist.Object);
-
             // Act
-            var @event = await eventService.GetEventById(id);
+            var @event = await _eventService.GetEventById(id);
 
             // Assert
             Assert.NotNull(@event);
