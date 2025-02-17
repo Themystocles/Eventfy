@@ -40,12 +40,17 @@ namespace Eventfy.Controllers
         {
             try
             {
-                var eventDto = new EventDto() { Id = id,
+                var eventDto = new EventDto()
+                {   
+                    Id = id,
                     Name = @event.Name,
                     Description = @event.Description,
                     DateEvent = @event.DateEvent, 
-                    LocalId = @event.LocalId };
+                    LocalId = @event.LocalId 
+                };
+
                 await _eventService.UpdateEvent(eventDto);
+
                 return Ok(@event);
             }
             catch (Exception ex)
