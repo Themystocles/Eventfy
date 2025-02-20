@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Server.IIS.Core;
 
 namespace Eventfy.Service
 {
-    public class ParticipantService
+    public class ParticipantService : IParticipantService
     {
         private readonly IParticipantPersist _participantPersist;
         public ParticipantService(IParticipantPersist participantPersist)
