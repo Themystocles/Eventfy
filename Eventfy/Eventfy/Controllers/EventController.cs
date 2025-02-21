@@ -1,4 +1,5 @@
-﻿using Eventfy.Models;
+﻿using Eventfy.Interface.Interface_Services;
+using Eventfy.Models;
 using Eventfy.Models.DTOs;
 using Eventfy.Service;
 using Microsoft.AspNetCore.Mvc;
@@ -9,8 +10,8 @@ namespace Eventfy.Controllers
     [Route("api/[controller]")]
     public class EventController : ControllerBase
     {
-        private readonly EventService _eventService;
-        public EventController(EventService eventService)
+        private readonly IEventServices _eventService;
+        public EventController(IEventServices eventService)
         {
             _eventService = eventService;
         }
@@ -49,9 +50,9 @@ namespace Eventfy.Controllers
                     LocalId = @event.LocalId 
                 };
 
-                await _eventService.UpdateEvent(eventDto);
+              var updatedEvent =   await _eventService.UpdateEvent(eventDto);
 
-                return Ok(@event);
+                return Ok(updatedEvent);
             }
             catch (Exception ex)
             {

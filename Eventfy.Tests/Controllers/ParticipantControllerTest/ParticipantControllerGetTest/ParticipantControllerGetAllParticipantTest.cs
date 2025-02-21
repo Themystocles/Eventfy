@@ -14,15 +14,15 @@ namespace Eventfy.Tests.Controllers.ParticipantControllerTest
 {
     public class ParticipantControllerGetAllParticipantTest
     {
-        private readonly Mock<IParticipantPersist> _participantPersistMock;
-        private readonly ParticipantService _participantService;
+      
+        private readonly Mock<IParticipantService> _participantService;
         private readonly ParticipantController _participantController;
 
         public ParticipantControllerGetAllParticipantTest() 
         {
-            _participantPersistMock = new Mock<IParticipantPersist>();
-            _participantService = new ParticipantService(_participantPersistMock.Object);
-            _participantController = new ParticipantController(_participantService);
+           
+            _participantService = new Mock<IParticipantService>();
+            _participantController = new ParticipantController(_participantService.Object);
         }
 
         [Fact]
@@ -34,8 +34,8 @@ namespace Eventfy.Tests.Controllers.ParticipantControllerTest
                 new Participant{Id= 2, Name = "Michael", Email = "Michael@gmail.com"}
             };
 
-            _participantPersistMock
-                .Setup(x => x.GetAllParticipantAsync())
+            _participantService
+                .Setup(x => x.GetAllParticipants())
                 .ReturnsAsync(participant);
             var result = await _participantController.GetAllParticipant();
 

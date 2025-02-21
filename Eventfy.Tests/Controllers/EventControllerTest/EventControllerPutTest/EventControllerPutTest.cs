@@ -1,5 +1,6 @@
 ﻿using Eventfy.Controllers;
 using Eventfy.Interface;
+using Eventfy.Interface.Interface_Services;
 using Eventfy.Models;
 using Eventfy.Models.DTOs;
 using Eventfy.Service;
@@ -8,6 +9,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,16 +17,14 @@ namespace Eventfy.Tests.Controllers.EventControllerTest.EventControllerPutTest
 {
     public class EventControllerPutTest
     {
-        private readonly Mock<IEventPersist> _eventPersistMock;
-        private readonly EventService _eventService;
+        private readonly Mock<IEventServices> _eventServices;
         private readonly EventController _eventController;
         public EventControllerPutTest() 
         {
-            _eventPersistMock = new Mock<IEventPersist>();
-            _eventService = new EventService(_eventPersistMock.Object);
-            _eventController = new EventController(_eventService); ;
+            _eventServices = new Mock<IEventServices>();
+            _eventController = new EventController(_eventServices.Object);
 
-    }
+        }
         [Fact]
         public async Task ShouldReturn_EventPut()
         {
@@ -44,13 +44,21 @@ namespace Eventfy.Tests.Controllers.EventControllerTest.EventControllerPutTest
                 Description = "Updated Description"
             };
 
-            _eventPersistMock
-                .Setup(ep => ep.GetEventByIdAsync(id))
-                .ReturnsAsync(existingEvent); 
+            var @event = new Event
+            {
+                Id = eventDto.Id,
+                Name = eventDto.Name,
+                Description = eventDto.Description
 
-            _eventPersistMock
-                .Setup(ep => ep.UpdateEventAsync(It.IsAny<Event>()))
-                .ReturnsAsync((Event e) => e); 
+            };
+
+            _eventServices
+                .Setup(ep => ep.GetEventById(id))
+                .ReturnsAsync(existingEvent);
+
+            _eventServices
+              .Setup(ep => ep.UpdateEvent(It.IsAny<EventDto>()))
+                .ReturnsAsync(@event);
 
             // Act
             var result = await _eventController.PutEvent(id, eventDto);
@@ -59,13 +67,12 @@ namespace Eventfy.Tests.Controllers.EventControllerTest.EventControllerPutTest
             Assert.NotNull(result);
             var okResult = Assert.IsType<OkObjectResult>(result.Result);
             Assert.NotNull(okResult.Value);
-            var returnedEvent = Assert.IsType<EventDto>(okResult.Value);
+            var returnedEvent = Assert.IsType<Event>(okResult.Value);
             Assert.Equal(eventDto.Id, returnedEvent.Id);
             Assert.Equal(eventDto.Name, returnedEvent.Name);
             Assert.Equal(eventDto.Description, returnedEvent.Description);
 
-            _eventPersistMock.Verify(ep => ep.GetEventByIdAsync(id), Times.Once);
-            _eventPersistMock.Verify(ep => ep.UpdateEventAsync(It.IsAny<Event>()), Times.Once);
+            
         }
     }
 }

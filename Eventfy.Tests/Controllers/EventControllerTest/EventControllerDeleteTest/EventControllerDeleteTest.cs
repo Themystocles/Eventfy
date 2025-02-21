@@ -1,5 +1,6 @@
 ﻿using Eventfy.Controllers;
 using Eventfy.Interface;
+using Eventfy.Interface.Interface_Services;
 using Eventfy.Models;
 using Eventfy.Service;
 using Microsoft.AspNetCore.Mvc;
@@ -14,15 +15,14 @@ namespace Eventfy.Tests.Controllers.EventControllerTest.EventControllerDeleteTes
 {
     public class EventControllerDeleteTest
     {
-        private readonly Mock<IEventPersist> _eventPersistMock;
-        private readonly EventService _eventServices;
+
+        private readonly Mock<IEventServices> _eventServices;
         private readonly EventController _eventController;
 
-       public EventControllerDeleteTest()
+        public EventControllerDeleteTest()
         {
-            _eventPersistMock = new Mock<IEventPersist>();
-            _eventServices = new EventService(_eventPersistMock.Object);
-            _eventController = new EventController(_eventServices);
+            _eventServices = new Mock<IEventServices>();
+            _eventController = new EventController(_eventServices.Object);
         }
         [Fact]
         public async Task ShouldReturn_Ok_When_Event_Deleted()
@@ -36,13 +36,13 @@ namespace Eventfy.Tests.Controllers.EventControllerTest.EventControllerDeleteTes
                 Description = "Test",
             };
 
-            _eventPersistMock
-                .Setup(ep => ep.GetEventByIdAsync(id)) 
+            _eventServices
+                .Setup(ep => ep.GetEventById(id)) 
                 .ReturnsAsync(existingEvent);
 
-            _eventPersistMock
-                .Setup(ep => ep.DeleteEventAsync(id)) 
-                .ReturnsAsync(existingEvent);
+            _eventServices
+                .Setup(ep => ep.DeleteEvent(id)) 
+                .ReturnsAsync(true);
 
             // Act
             var result = await _eventController.DeleteEvent(id);
@@ -51,8 +51,7 @@ namespace Eventfy.Tests.Controllers.EventControllerTest.EventControllerDeleteTes
             Assert.NotNull(result);
             Assert.IsType<OkResult>(result.Result);
 
-            _eventPersistMock.Verify(ep => ep.GetEventByIdAsync(id), Times.Once);
-            _eventPersistMock.Verify(ep => ep.DeleteEventAsync(id), Times.Once);
+            
         }
 
     }

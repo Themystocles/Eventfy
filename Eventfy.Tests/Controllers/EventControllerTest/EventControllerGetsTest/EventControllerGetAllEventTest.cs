@@ -7,20 +7,21 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Eventfy.Interface;
 using Xunit;
+using Eventfy.Interface.Interface_Services;
 
 namespace Eventfy.Tests.EventControllerGetsTest
 {
     public class EventControllerGetAllEventTest
     {
-        private readonly Mock<IEventPersist> _eventPersistMock;
-        private readonly EventService _eventServices;
+      
+        private readonly Mock<IEventServices> _eventServices;
         private readonly EventController _eventController;
 
         public EventControllerGetAllEventTest()
         {
-            _eventPersistMock = new Mock<IEventPersist>();
-            _eventServices = new EventService(_eventPersistMock.Object);
-            _eventController = new EventController(_eventServices);
+       
+            _eventServices = new Mock<IEventServices>();
+            _eventController = new EventController(_eventServices.Object);
         }
 
         [Fact]
@@ -33,8 +34,8 @@ namespace Eventfy.Tests.EventControllerGetsTest
                 new Event { Id = 2, Name = "event dois" }
             };
 
-            _eventPersistMock
-                .Setup(ev => ev.GetAllEventAsync())
+            _eventServices
+                .Setup(ev => ev.GetEvents())
                 .ReturnsAsync(mockEvents);
             // Act
             var result = await _eventController.GetAllEventsAssync();

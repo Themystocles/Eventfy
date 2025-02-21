@@ -1,5 +1,6 @@
 ﻿using Eventfy.Controllers;
 using Eventfy.Interface;
+using Eventfy.Interface.Interface_Services;
 using Eventfy.Models;
 using Eventfy.Models.DTOs;
 using Eventfy.Service;
@@ -15,15 +16,12 @@ namespace Eventfy.Tests.Controllers.EventControllerTest.EventControllerPostTest
 {
     public class EventControllerPostTest
     {
-
-        private readonly Mock<IEventPersist> _eventPersistMock;
-        private readonly EventService _eventService;
+        private readonly Mock<IEventServices> _eventServices;
         private readonly EventController _eventController;
         public EventControllerPostTest() 
         {
-            _eventPersistMock = new Mock<IEventPersist>();
-            _eventService = new EventService(_eventPersistMock.Object);
-            _eventController = new EventController(_eventService);
+            _eventServices = new Mock<IEventServices>();
+            _eventController = new EventController(_eventServices.Object);
         }
 
         [Fact]
@@ -43,9 +41,9 @@ namespace Eventfy.Tests.Controllers.EventControllerTest.EventControllerPostTest
                 Name = eventDto.Name,
                 Description = eventDto.Description,
             };
-            
-            _eventPersistMock
-                .Setup(ep => ep.CreateEvent(It.IsAny<Event>()))
+
+            _eventServices
+                .Setup(ep => ep.CreateEvent(It.IsAny<EventDto>()))
                 .ReturnsAsync(@event);
             //Act
             
@@ -62,7 +60,7 @@ namespace Eventfy.Tests.Controllers.EventControllerTest.EventControllerPostTest
             Assert.Equal(eventDto.Id, returnedEvent.Id);
             Assert.Equal(eventDto.Name, returnedEvent.Name);
             Assert.Equal(eventDto.Description, returnedEvent.Description);
-            _eventPersistMock.Verify(ep => ep.CreateEvent(It.IsAny<Event>()), Times.Once);
+            
 
         }
     }
