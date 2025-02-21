@@ -28,4 +28,8 @@
     <ProjectReference Include="..\Eventfy\Eventfy\Eventfy.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\ParticipantControllerTest\ParticipantControllerPostTest\" />
+  </ItemGroup>
+
 </Project>

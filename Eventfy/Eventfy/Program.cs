@@ -1,5 +1,6 @@
 using Eventfy.Data;
 using Eventfy.Interface;
+using Eventfy.Interface.Interface_Services;
 using Eventfy.Persistence;
 using Eventfy.Service;
 using Microsoft.EntityFrameworkCore;
@@ -34,11 +35,13 @@ namespace Eventfy
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<IEventPersist, EventPersist>();
             builder.Services.AddScoped<EventService>();
+            builder.Services.AddScoped<IEventServices, EventService>();
             builder.Services.AddScoped<ILocalPersist, LocalPersist>();
             builder.Services.AddScoped<LocalService>();
             builder.Services.AddScoped<IParticipantPersist, ParticipantPersist>();
             builder.Services.AddScoped<ParticipantService>();
             builder.Services.AddScoped<IEventParticipantPersist, EventParticipantPersist>();
+            builder.Services.AddScoped<IParticipantService, ParticipantService>();
             builder.Services.AddScoped<EventParticipantServices>();
             builder.Services.AddControllers().AddNewtonsoftJson(options =>
             {

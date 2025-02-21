@@ -13,12 +13,12 @@ namespace Eventfy.Tests.Controllers.ParticipantControllerTest.ParticipantControl
 {
     public class ParticipantControllerGetParticipantByIdTest
     {
-       // private readonly Mock<IParticipantPersist> _participantPersistMock;
+       
         private readonly Mock<IParticipantService> _participantService;
         private readonly ParticipantController _participantController;
         public ParticipantControllerGetParticipantByIdTest()
         {
-         //   _participantPersistMock = new Mock<IParticipantPersist>();
+         
             _participantService = new Mock<IParticipantService>();
             _participantController = new ParticipantController(_participantService.Object);
 

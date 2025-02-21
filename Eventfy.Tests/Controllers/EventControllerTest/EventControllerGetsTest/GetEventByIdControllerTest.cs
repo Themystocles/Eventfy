@@ -1,5 +1,6 @@
 ﻿using Eventfy.Controllers;
 using Eventfy.Interface;
+using Eventfy.Interface.Interface_Services;
 using Eventfy.Models;
 using Eventfy.Service;
 using Microsoft.AspNetCore.Mvc;
@@ -11,15 +12,15 @@ namespace Eventfy.Tests.Controllers.EventControllerGetsTest
 {
     public class GetEventByIdControllerTest
     {
-        private readonly Mock<IEventPersist> _IeventPersistMock;
-        private readonly EventService _eventService;
+     
+        private readonly Mock<IEventServices> _eventService;
         private readonly EventController _eventController;
 
         public GetEventByIdControllerTest()
         {
-            _IeventPersistMock = new Mock<IEventPersist>();
-            _eventService = new EventService(_IeventPersistMock.Object);
-            _eventController = new EventController(_eventService);
+           
+            _eventService = new Mock<IEventServices>();
+            _eventController = new EventController(_eventService.Object);
         }
 
         [Fact]
@@ -33,7 +34,7 @@ namespace Eventfy.Tests.Controllers.EventControllerGetsTest
                 Description = "Técnica em sistemas",
             };
 
-            _IeventPersistMock.Setup(ep => ep.GetEventByIdAsync(eventMock.Id))
+            _eventService.Setup(ep => ep.GetEventById(eventMock.Id))
                 .ReturnsAsync(eventMock);
 
             var result = await _eventController.GetEventById(1);
