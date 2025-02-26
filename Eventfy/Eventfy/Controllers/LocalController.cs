@@ -1,4 +1,5 @@
-﻿using Eventfy.Models;
+﻿using Eventfy.Interface.Interface_Services;
+using Eventfy.Models;
 using Eventfy.Models.DTOs;
 using Eventfy.Service;
 using Microsoft.AspNetCore.Mvc;
@@ -9,8 +10,8 @@ namespace Eventfy.Controllers
     [Route("api/[controller]")]
     public class LocalController : ControllerBase
     {
-        private readonly LocalService _localService;
-        public LocalController(LocalService localService)
+        private readonly ILocalServices _localService;
+        public LocalController(ILocalServices localService)
         {
             _localService = localService;
         }
@@ -18,7 +19,7 @@ namespace Eventfy.Controllers
         public async Task<ActionResult<IEnumerable<Local>>> GetAllLocals()
         {
             var locals = await _localService.GetAllLocalsAsync();
-            return locals.ToList();
+            return Ok(locals.ToList());
         }
         [HttpGet("Local/{id}")]
         public async Task<ActionResult<Local>> GetLocalById(int id)
@@ -26,7 +27,7 @@ namespace Eventfy.Controllers
             try
             {
                 var local = await _localService.GetLocalByIdAsync(id);
-                return local;
+                return Ok(local);
             }
             catch (Exception ex)
             {
@@ -41,7 +42,7 @@ namespace Eventfy.Controllers
             try 
             {
                 var local = await _localService.CreateLocalAsync(localDto);
-                return local;
+                return CreatedAtAction(nameof(GetLocalById), new { id = local.Id }, local);
             }
             catch (Exception ex)
             {

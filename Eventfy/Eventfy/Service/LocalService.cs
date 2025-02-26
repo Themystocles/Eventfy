@@ -1,4 +1,5 @@
 ﻿using Eventfy.Interface;
+using Eventfy.Interface.Interface_Services;
 using Eventfy.Models;
 using Eventfy.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Eventfy.Service
 {
-    public class LocalService
+    public class LocalService : ILocalServices
+
     {
         private readonly ILocalPersist _localPersist;
 
