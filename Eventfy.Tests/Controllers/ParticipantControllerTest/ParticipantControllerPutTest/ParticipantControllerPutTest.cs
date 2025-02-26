@@ -50,7 +50,7 @@ namespace Eventfy.Tests.Controllers.ParticipantControllerTest.ParticipantControl
             };
             _participantservices
                 .Setup(x => x.GetParticipantByIdAsync(id))
-                .ReturnsAsync(participant);
+                .ReturnsAsync(existingParticipant);
 
             _participantservices
                 .Setup(x => x.UpdateParticipantAsync(participantDto))
@@ -68,11 +68,13 @@ namespace Eventfy.Tests.Controllers.ParticipantControllerTest.ParticipantControl
             Assert.Equal(participantDto.Name, returnedParticipant.Name);
             Assert.Equal(participantDto.Email, returnedParticipant.Email);
 
-            _participantservices.Verify(x => x.GetParticipantByIdAsync(id), Times.Once);
+            _participantservices.Verify(x => x.UpdateParticipantAsync(It.IsAny<ParticipantDto>()), Times.Once);
+
+
 
 
 
         }
-       
+
     }
 }
