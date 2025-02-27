@@ -1,4 +1,5 @@
 ﻿using Eventfy.Interface;
+using Eventfy.Interface.Interface_Services;
 using Eventfy.Models;
 using Eventfy.Models.DTOs;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -6,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Eventfy.Service
 {
-    public class EventParticipantServices
+    public class EventParticipantServices : IEventParticipantServices
     {
         private readonly IEventParticipantPersist _eventParticipant;
         private readonly IEventPersist _eventPersist;
