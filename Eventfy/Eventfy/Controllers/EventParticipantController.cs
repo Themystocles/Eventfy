@@ -1,4 +1,5 @@
-﻿using Eventfy.Models;
+﻿using Eventfy.Interface.Interface_Services;
+using Eventfy.Models;
 using Eventfy.Models.DTOs;
 using Eventfy.Service;
 using Microsoft.AspNetCore.Mvc;
@@ -8,8 +9,8 @@ namespace Eventfy.Controllers
 {
     public class EventParticipantController : ControllerBase
     {
-        private readonly EventParticipantServices _eventParticipant;
-        public EventParticipantController(EventParticipantServices eventParticipantServices)
+        private readonly IEventParticipantServices _eventParticipant;
+        public EventParticipantController(IEventParticipantServices eventParticipantServices)
         {
             _eventParticipant = eventParticipantServices;
         }
