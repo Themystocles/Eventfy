@@ -1,1 +1,16 @@
+# Pastas e arquivos do Visual Studio
 .vs/
+*.suo
+*.user
+*.cache
+*.db
+*.opendb
+
+# Pastas de build do .NET
+bin/
+obj/
+
+# Arquivos de depuração
+*.pdb
+*.dll
+*.exe

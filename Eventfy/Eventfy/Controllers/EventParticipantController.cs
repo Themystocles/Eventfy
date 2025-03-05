@@ -15,7 +15,7 @@ namespace Eventfy.Controllers
             _eventParticipant = eventParticipantServices;
         }
         [HttpPost("CreateEventParticipant/{eventId}/{participantId}")]
-        public async Task <ActionResult<EventParticipant>> AddEventParticipant(int eventId, int participantId)
+        public async Task <ActionResult<EventParticipantDto>> AddEventParticipant(int eventId, int participantId)
         {
             var eventParticipant = new EventParticipantDto()
             {
@@ -53,7 +53,7 @@ namespace Eventfy.Controllers
             try
             {
                 var updatedEventParticipant = await _eventParticipant.UpdateEventParticipantAsync(eventParticipant);
-                return Ok(updatedEventParticipant); // Retorna o participante atualizado
+                return Ok(updatedEventParticipant); 
             }
             catch (ArgumentException ex)
             {
@@ -78,7 +78,7 @@ namespace Eventfy.Controllers
 
         }
         [HttpGet("Event/{ParticipantId}")]
-        public async Task<ActionResult<IEnumerable<Participant>>> GetEventByParticipantId(int ParticipantId)
+        public async Task<ActionResult<IEnumerable<Event>>> GetEventByParticipantId(int ParticipantId)
         {
             var @event = await _eventParticipant.GetListEventByParticipantId(ParticipantId);
 
